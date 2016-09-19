@@ -11,3 +11,6 @@ local.properties
 
 # Ignore files build with linux
 linux-build/
+
+# Ignore files cocos2d engine
+cocos2d/

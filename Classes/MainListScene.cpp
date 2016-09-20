@@ -1,7 +1,22 @@
+
+#include "ui/UIText.h"
+
 #include "MainListScene.h"
-#include "SimpleAudioEngine.h"
+#include "JSONParserTestScene.h"
 
 USING_NS_CC;
+using namespace cocos2d::ui;
+
+MainList::MainList()
+{
+    _topics = {
+        "1 : JSON Parser based on rapidjson",
+        "2 : other"
+    };
+}
+
+MainList::~MainList()
+{}
 
 Scene* MainList::createScene()
 {
@@ -39,6 +54,7 @@ bool MainList::init()
     auto closeItem = MenuItemImage::create("CloseNormal.png", "CloseSelected.png", CC_CALLBACK_1(MainList::menuCloseCallback, this));
     closeItem->setAnchorPoint(Vec2(1.0f, 1.0f));
     closeItem->setPosition(Vec2(origin.x + visibleSize.width, origin.y + visibleSize.height));
+    closeItem->setScale(1.5f);
 
     // create menu, it's an autorelease object
     auto menu = Menu::create(closeItem, NULL);
@@ -47,17 +63,29 @@ bool MainList::init()
 
     /////////////////////////////
     // 3. add your codes below...
-
-    // add a label shows "Hello World"
-    // create and initialize a label
     
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+    _listView = ListView::create();
+    _listView->setDirection(ScrollView::Direction::VERTICAL);
+    _listView->setItemsMargin(5);
+    _listView->setTouchEnabled(true);
+    _listView->setBounceEnabled(true);
+    _listView->setScrollBarEnabled(false);
+    _listView->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _listView->setContentSize(Size(visibleSize.width * 0.8f, visibleSize.height * 0.9f));
+    _listView->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
+    _listView->addEventListener((ListView::ccListViewCallback) CC_CALLBACK_2(MainList::onListViewSelectItemEvent, this));
+    _listView->setGravity(ListView::Gravity::CENTER_HORIZONTAL);
+    addChild(_listView);
     
-    // position the label on the center of the screen
-    label->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height - label->getContentSize().height));
-
-    // add the label as a child to this layer
-    this->addChild(label, 1);
+    for (int i = 0; i < _topics.size(); ++i) {
+        Text* item = Text::create();
+        item->setFontName(FONT_NAME);
+        item->setTouchEnabled(true);
+        item->setFontSize(FONT_SIZE);
+        item->setTag(i);
+        item->setString(_topics[i]);
+        _listView->pushBackCustomItem(item);
+    }
     
     return true;
 }
@@ -68,7 +96,7 @@ void MainList::menuCloseCallback(Ref* pSender)
     //Close the cocos2d-x game scene and quit the application
     Director::getInstance()->end();
 
-    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);
 #endif
     
@@ -78,4 +106,42 @@ void MainList::menuCloseCallback(Ref* pSender)
     //_eventDispatcher->dispatchEvent(&customEndEvent);
     
     
+}
+
+void MainList::onListViewSelectItemEvent(Ref* pSender, ListView::EventType type)
+{
+    switch (type) {
+        case ListView::EventType::ON_SELECTED_ITEM_START:
+            log("MainList::onListViewSelectItemEvent start");
+            break;
+        case ListView::EventType::ON_SELECTED_ITEM_END: {
+            log("MainList::onListViewSelectItemEvent end");
+            ListView* listView = static_cast<ListView*>(pSender);
+            onListViewItemClicked(listView->getCurSelectedIndex());
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+void MainList::onListViewItemClicked(ssize_t index)
+{
+    log("MainList::onListViewItemClicked start index = %zd", index);
+    
+    Scene* scene = nullptr;
+    switch (index) {
+        case 0:
+            scene = JSONParserTest::createScene();
+            break;
+            
+        default:
+            break;
+    }
+    
+    if (nullptr != scene) {
+        Director::getInstance()->pushScene(scene);
+    } else {
+        log("MainList::onListViewItemClicked no scene is created!");
+    }
 }

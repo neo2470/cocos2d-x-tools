@@ -77,7 +77,7 @@ bool MainList::init()
     _listView->setGravity(ListView::Gravity::CENTER_HORIZONTAL);
     addChild(_listView);
     
-    for (int i = 0; i < _topics.size(); ++i) {
+    for (unsigned int i = 0; i < _topics.size(); ++i) {
         Text* item = Text::create();
         item->setFontName(FONT_NAME);
         item->setTouchEnabled(true);

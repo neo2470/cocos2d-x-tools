@@ -14,6 +14,8 @@
 
 #include <string>
 
+#include "../../cocos2d/external/json/document.h"
+
 class JSONArray;
 
 // JSON Base class
@@ -21,19 +23,30 @@ class JSONBase
 {
 public:
     
-    // 根據string生成JSON
-//    JSONBase(const std::string &data){};
-//    
-//    ~JSONBase();
+	JSONBase();
+
+    JSONBase(const std::string &data);
+
+    ~JSONBase();
     
     std::string toString();
+
+protected:
+
+    rapidjson::Document _doc;
+
+    rapidjson::Value _val;
+
+    bool _fromString;
 };
 
 // JSON Object class
 class JSONObject : public JSONBase
 {
 public:
-    
+
+    JSONObject();
+
     JSONObject(const std::string &data);
     
     ~JSONObject();
@@ -58,16 +71,20 @@ public:
     
     std::string optString(const std::string &name, std::string fallback = "");
     
-    JSONObject optJSONObject(const std::string &name);
-    
-    JSONArray optJSONArray(const std::string &name);
+//    JSONObject optJSONObject(const std::string &name);
+//
+//    JSONArray optJSONArray(const std::string &name);
 };
 
 // JSON Array class
 class JSONArray : public JSONBase
 {
 public:
+
     JSONArray();
+
+    JSONArray(const std::string &data);
+
     ~JSONArray();
 };
 

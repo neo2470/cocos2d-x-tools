@@ -1,18 +1,47 @@
 #include "JSONParser.h"
 
-//JSONBase::JSONBase(const std::string &data)
-//{}
-//
-//JSONBase::~JSONBase()
-//{}
+#include "../../cocos2d/external/json/stringbuffer.h"
+#include "../../cocos2d/external/json/writer.h"
+
+using namespace rapidjson;
+
+JSONBase::JSONBase()
+{
+	_fromString = false;
+}
+
+JSONBase::JSONBase(const std::string &data)
+{
+	_fromString = true;
+	_doc.Parse<kParseDefaultFlags>(data.c_str());
+}
+
+JSONBase::~JSONBase()
+{}
 
 std::string JSONBase::toString()
 {
-    return "";
+	StringBuffer buffer;
+	Writer<StringBuffer> writer(buffer);
+
+	if(_fromString) {
+		_doc.Accept(writer);
+	} else {
+		_val.Accept(writer);
+	}
+
+    return buffer.GetString();
 }
 
-JSONObject::JSONObject(const std::string &data)
-{}
+JSONObject::JSONObject()
+{
+	_val.SetObject();
+}
+
+JSONObject::JSONObject(const std::string &data):JSONBase(data)
+{
+	assert(_doc.IsObject());
+}
 
 JSONObject::~JSONObject()
 {}
@@ -55,14 +84,28 @@ std::string JSONObject::optString(const std::string &name, std::string fallback)
     return fallback;
 }
 
-JSONObject JSONObject::optJSONObject(const std::string &name)
+//JSONObject JSONObject::optJSONObject(const std::string &name)
+//{
+//    JSONObject obj;
+//    return obj;
+//}
+//
+//JSONArray JSONObject::optJSONArray(const std::string &name)
+//{
+//    JSONArray arr;
+//    return arr;
+//}
+
+JSONArray::JSONArray()
 {
-    JSONObject obj("");
-    return obj;
+	 _fromString = false;
+	 _val.SetArray();
 }
 
-JSONArray JSONObject::optJSONArray(const std::string &name)
+JSONArray::JSONArray(const std::string &data) : JSONBase(data)
 {
-    JSONArray arr;
-    return arr;
+	assert(_doc.IsArray());
 }
+
+JSONArray::~JSONArray()
+{}

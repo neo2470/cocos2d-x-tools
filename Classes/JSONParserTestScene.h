@@ -9,8 +9,6 @@
 #ifndef _JSON_PARSER_TEST_SCENE_H_
 #define _JSON_PARSER_TEST_SCENE_H_
 
-#include "json/document.h"
-
 #include "cocos2d.h"
 
 class JSONParserTest : public cocos2d::Layer

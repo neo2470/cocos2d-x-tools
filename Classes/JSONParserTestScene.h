@@ -28,6 +28,8 @@ public:
     
 private :
     
+    void JSONParserTest2();
+    
     const float BTN_FONT_SIZE = 30.0f;
     const std::string BTN_FONT_NAME = "fonts/Marker Felt.ttf";
 };

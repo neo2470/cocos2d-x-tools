@@ -51,15 +51,9 @@ bool JSONParserTest::init()
     backBtn->addClickEventListener(CC_CALLBACK_1(JSONParserTest::onBtnClicked, this));
     addChild(backBtn);
     
-    std::string data = "{ \"hello\" : \"world\", \"t\" : true , \"f\" : false, \"n\": null, \"i\":123, \"pi\": 3.1416, \"a\":[1, 2, 3, 4]}";
-    JSONObject obj(data);
-
-    std::string data2 = "[2, 3, 4, 5, 6, 7, 8, 9, 10]";
-    JSONArray arr(data2);
-
-    log("JSONParserTest::init JSONObject obj.toString() = %s", obj.toString().c_str());
-    log("JSONParserTest::init JSONArray arr.toString() = %s", arr.toString().c_str());
-
+    // JSONParser test
+    JSONParserTest2();
+    
     return true;
 }
 
@@ -74,4 +68,58 @@ void JSONParserTest::onBtnClicked(Ref* pSender)
         default:
             break;
     }
+}
+
+void JSONParserTest::JSONParserTest2()
+{
+    // 生成JSON Object
+    JSONObject obj1;
+    obj1.put("int", 123);
+    obj1.put("bool", true);
+    obj1.put("double", 14354353.120215);
+    
+    std::string str("字符串變量");
+    obj1.put("string1", str);
+    
+    obj1.put("string2", "字符串字面值");
+    
+    JSONObject obj;
+    obj.put("key", "由JSONObject手動put而來");
+    obj1.put("objFromPut", obj);
+    
+    JSONObject objs("{\"key\": \"由std::string解析而來\"}");
+    obj1.put("objFromParse", objs);
+    
+    JSONArray arr;
+    obj1.put("objFromPut2", arr);
+    
+    log("JSONParserTest::JSONParserTest2 JSONObject obj1.toString() = %s", obj1.toString().c_str());
+    
+    // 解析JSON Object
+    std::string objStr = "{ \"hello\" : \"world\", \"t\" : true , \"f\" : false, \"i\":123, \"pi\": 3.1416, \"a\":[1, 2, 3, 4]}";
+    JSONObject obj2(objStr);
+    log("JSONParserTest::JSONParserTest2 JSONObject parse objStr = %s", objStr.c_str());
+    
+    std::string hello = obj2.optString("hello");
+    log("JSONParserTest::JSONParserTest2 JSONObject parser hello = %s", hello.c_str());
+    
+    bool t = obj2.optBool("t");
+    log("JSONParserTest::JSONParserTest2 JSONObject parser t = %d", t);
+    
+    bool f = obj2.optBool("f");
+    log("JSONParserTest::JSONParserTest2 JSONObject parser f = %d", f);
+    
+    int i = obj2.optInt("i");
+    log("JSONParserTest::JSONParserTest2 JSONObject parser i = %d", i);
+    
+    double pi = obj2.optDouble("pi");
+    log("JSONParserTest::JSONParserTest2 JSONObject parser pi = %f", pi);
+    
+    
+    
+    std::string arrStr = "[2, 3, 4, 5, 6, 7, 8, 9, 10]";
+    JSONArray arr1(arrStr);
+    
+//    log("JSONParserTest::JSONParserTest2 JSONObject obj2.toString() = %s", obj2.toString().c_str());
+//    log("JSONParserTest::JSONParserTest2 JSONArray arr1.toString() = %s", arr1.toString().c_str());
 }

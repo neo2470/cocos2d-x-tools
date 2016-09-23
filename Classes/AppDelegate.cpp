@@ -78,6 +78,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     std::vector<std::string> searchPaths;
     
     searchPaths.push_back("res/images");
+    searchPaths.push_back("res/language");
     
     FileUtils::getInstance()->setSearchPaths(searchPaths);
     

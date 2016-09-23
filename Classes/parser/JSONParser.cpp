@@ -22,6 +22,11 @@ JSONBase::JSONBase(const std::string &data)
 JSONBase::~JSONBase()
 {}
 
+rapidjson::Document& JSONBase::getDocument()
+{
+    return _doc;
+}
+
 std::string JSONBase::toString()
 {
 	StringBuffer buffer;
@@ -132,7 +137,25 @@ std::string JSONObject::optString(const std::string &name, std::string fallback)
 }
 
 void JSONObject::optJSONObject(const std::string &name, JSONObject &object)
-{}
+{
+    if (has(name)) {
+        const Value& value = _doc[name.c_str()];
+        assert(value.IsObject());
+        
+        // TODO 此處有錯誤
+        
+        StringBuffer buffer;
+        Writer<StringBuffer> writer(buffer);
+        value.Accept(writer);
+        
+        cocos2d::log("JSONObject::optJSONObject tmp string = %s", buffer.GetString());
+        
+        Document tmp(&object.getDocument().GetAllocator());
+        tmp.Parse<kParseDefaultFlags>(buffer.GetString());
+        
+        object._doc.AddMember(StringRef(name.c_str()), tmp, object._doc.GetAllocator());
+    }
+}
 
 void JSONObject::optJSONArray(const std::string &name, JSONArray &array)
 {}

@@ -6,7 +6,6 @@
  * cocos2d-x-tools
  * 
  * Created by Alex on 20/9/2016.
- *
  */
 
 #ifndef _JSON_PARSER_H_
@@ -29,10 +28,12 @@ public:
 
     ~JSONBase();
     
-    // 轉為緊湊型JSON，適合傳輸
+    rapidjson::Document& getDocument();
+    
+    // 轉為緊湊型JSON字符串，適合傳輸
     std::string toString();
     
-    // 轉為格式化JSON，適合閱讀
+    // 轉為格式化JSON字符串，適合閱讀
     std::string toString2();
 
 protected:

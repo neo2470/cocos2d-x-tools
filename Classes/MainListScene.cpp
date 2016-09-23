@@ -1,6 +1,7 @@
 
 #include "ui/UIText.h"
 
+#include "LanguageHelper.h"
 #include "MainListScene.h"
 #include "JSONParserTestScene.h"
 
@@ -10,8 +11,9 @@ using namespace cocos2d::ui;
 MainList::MainList()
 {
     _topics = {
-        "1 : JSON Parser based on rapidjson",
-        "2 : other"
+        LanguageHelper::getInstance()->getString("mainListText0"),
+        LanguageHelper::getInstance()->getString("mainListText1"),
+        LanguageHelper::getInstance()->getString("mainListText2"),
     };
 }
 
@@ -79,7 +81,12 @@ bool MainList::init()
     
     for (unsigned int i = 0; i < _topics.size(); ++i) {
         Text* item = Text::create();
-        item->setFontName(FONT_NAME);
+        
+        item->setFontName("");
+        if (LanguageType::ENGLISH == Application::getInstance()->getCurrentLanguage()) {
+            item->setFontName(FONT_NAME);
+        }
+        
         item->setTouchEnabled(true);
         item->setFontSize(FONT_SIZE);
         item->setTag(i);

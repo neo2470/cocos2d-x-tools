@@ -95,8 +95,12 @@ void JSONParserTest::JSONParserTest2()
     
     log("JSONParserTest::JSONParserTest2 JSONObject obj1.toString() = %s", obj1.toString().c_str());
     
+    // 生成JSON Array
+    
+    // ====================
+    
     // 解析JSON Object
-    std::string objStr = "{ \"hello\" : \"world\", \"t\" : true , \"f\" : false, \"i\":123, \"pi\": 3.1416, \"a\":[1, 2, 3, 4]}";
+    std::string objStr = "{ \"hello\" : \"world\", \"t\" : true , \"f\" : false, \"i\":123, \"pi\": 3.1416, \"a\":[1, 2, 3, 4], \"obj\":{\"name\":\"alex\"}}";
     JSONObject obj2(objStr);
     log("JSONParserTest::JSONParserTest2 JSONObject parse objStr = %s", objStr.c_str());
     
@@ -115,8 +119,8 @@ void JSONParserTest::JSONParserTest2()
     double pi = obj2.optDouble("pi");
     log("JSONParserTest::JSONParserTest2 JSONObject parser pi = %f", pi);
     
-    
-    
+
+    // 解析JSON Array
     std::string arrStr = "[2, 3, 4, 5, 6, 7, 8, 9, 10]";
     JSONArray arr1(arrStr);
     

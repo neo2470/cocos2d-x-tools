@@ -127,6 +127,8 @@ set(GAME_SRC
   Classes/MainListScene.cpp
   Classes/JSONParserTestScene.cpp
   Classes/parser/JSONParser.cpp
+  Classes/util/LanguageHelper.cpp
+  Classes/widget/UIMathFraction.cpp
   ${PLATFORM_SPECIFIC_SRC}
 )
 
@@ -135,6 +137,8 @@ set(GAME_HEADERS
   Classes/MainListScene.h
   Classes/JSONParserTestScene.h
   Classes/parser/JSONParser.h
+  Classes/util/LanguageHelper.h
+  Classes/widget/UIMathFraction.h
   ${PLATFORM_SPECIFIC_HEADERS}
 )
 

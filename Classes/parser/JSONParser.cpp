@@ -1,5 +1,7 @@
 #include "JSONParser.h"
 
+#include "cocos2d.h"
+
 #include "../../cocos2d/external/json/stringbuffer.h"
 #include "../../cocos2d/external/json/writer.h"
 #include "../../cocos2d/external/json/prettywriter.h"

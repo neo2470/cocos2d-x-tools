@@ -1,7 +1,7 @@
 
 #include "ui/UIText.h"
 
-#include "LanguageHelper.h"
+#include "util/LanguageHelper.h"
 #include "MainListScene.h"
 #include "JSONParserTestScene.h"
 
